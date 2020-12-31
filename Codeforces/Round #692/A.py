@@ -1,20 +1,15 @@
-def bad(s):
-	r = 0
-	for i in reversed(range(len(s))):
-		if s[i]==')':
-			r +=1
-		else:
-			return r
-	return r
+def solution(s):
+	if len(s)%2==1:
+		return "NO"
+	if s[0]==')' or s[-1]=='(':
+		return "NO"
+	return "YES"
 
+	
 t = int(input())
 
 for i in range(t):
-	N = int(input())
-	chat = input()
-	b = bad(chat)
-	if b > len(chat)-b:
-		print("YES")
-	else:
-		print("NO")
-
+	s = input()
+	print(solution(s))
+	
+	

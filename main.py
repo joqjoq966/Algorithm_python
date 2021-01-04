@@ -1,73 +1,41 @@
-# 3개의 벽을 세울 수 있는 모든 경우의 수 탐색
-# 3개의 벽을 세운 후 바이러스를 퍼뜨린 지도를 만든다
-# 안전 영역의 개수를 센다
-# 2,3을 반복하면서 안전영역의 최대를 찾는다
-from itertools import combinations
-import sys
-input = sys.stdin.readline
+N,M,B = map(int,input().split())
+ground = [[0]*M for i in range(N)]
+# 최소, 최대높이 초기화, 현재 인벤토리에 있는 블록의 갯수 저장
+min_height = 10**9
+max_height = -1
+total_blocks = B
 
-#바이러스가 퍼지는 것을 구현하는 함수
-def virus_spread(x,y):
-	for i in range(4):
-		nx = x + dx[i]
-		ny = y + dy[i]	
-		if nx<0 or ny<0 or nx>=N or ny>=M:
+# 각 위치마다 높이를 입력받고, 전체의 최소높이, 최대높이를 구한다.
+for i in range(N):
+	ground[i]=list(map(int,input().split()))
+	total_blocks+=sum(ground[i])
+	min_height = min(min_height,min(ground[i]))
+	max_height = max(max_height,max(ground[i]))
+
+def solution(N,M,B,ground):
+	ans_time = 2*(10**9)
+	# 최대높이부터 최소높이까지 모든 경우를 탐색한다
+	for height in range(max_height,min_height-1,-1):
+		# 필요한 블록의 개수가 전체 블록의 개수보다 많으면 건너뜀 
+		if height*N*M > total_blocks:
 			continue
-		if graph[nx][ny]==0:
-			graph[nx][ny]=2
-			virus_spread(nx,ny)
+		temp_time = 0
+		# 각 칸 별로 해당 height에 비해 높거나 낮을 때 각각 필요한 시간을 구한다
+		for i in range(N):
+			for j in range(M):
+				if ground[i][j]>height:
+					temp_time += 2*(ground[i][j]-height)
+				else:
+					temp_time += (height-ground[i][j])
+		# ans_time = min(ans_time, temp_time)
+		# 최소시간을 찾고 그 때의 높이를 구한다.
+		if ans_time > temp_time:
+			ans_time = temp_time
+			ans_height = height
+	return ans_time, ans_height
+
+print(*solution(N,M,B,ground))
+
+# 시간 복잡도 : O(max_height*N*M)
+# 사용한 방식 : 브루트포스, 낮은 
 		
-# 안전구역의 갯수 세는 함수
-def safe_area(graph):
-	cnt =0
-	for i in range(len(graph)):
-		for j in range(len(graph[i])):
-			if graph[i][j]==0:
-				cnt +=1
-	return cnt
-
-#벽을 3개 세우는 것을 조합으로 한 개씩 고려하면서 안전구역의 최대개수를 구하는 함수
-def dfs(graph):
-	global ans,N,M
-	for w in wall:
-		# 원본 그래프를 유지하기위해 temp에 임시저장
-		for i in range(N):
-			for j in range(M):
-				temp[i][j]=graph[i][j]
-		# wall에 있는 벽 3개를 순차적으로 놓으면서		
-		for i,j in w:
-			graph[i][j]=1
-		#바이러스를 퍼뜨리고	
-		for i,j in virus:
-			virus_spread(i,j)
-		#현재의 안전 영역의 최대값을 구한다
-		ans = max(ans,safe_area(graph))
-		# temp에 있는 원본 그래프를 다시 가져옴
-		for i in range(N):
-			for j in range(M):
-				graph[i][j]=temp[i][j]
-	
-	return ans
-
-N, M = map(int,input().split())
-graph = [[0]*M for _ in range(N)] #연구소 지도
-temp = [[0]*M for _ in range(N)] #연구소 지도
-visit = [[False]*M for _ in range(N)] #방문 체크
-empty = [] #빈 곳을 체크 --> 3개의 벽을 놓을 때 조합을 이용해서 활용
-virus = [] #바이러스가 있는 곳 체크
-dx = [-1,1,0,0] #상하좌우
-dy = [0,0,-1,1]
-ans = 0
-
-for i in range(N):
-	graph[i] = list(map(int,input().split()))
-
-for i in range(N):
-	for j in range(M):
-		if graph[i][j]==2:
-			virus.append((i,j))
-		elif graph[i][j]==0:
-			empty.append((i,j))
-#벽 3개를 놓는 모든 경우의 수
-wall = list(combinations(empty,3))
-print(dfs(graph))

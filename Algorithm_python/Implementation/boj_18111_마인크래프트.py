@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 N,M,B = map(int,input().split())
 ground = [[0]*M for i in range(N)]
 # 최소, 최대높이 초기화, 현재 인벤토리에 있는 블록의 갯수 저장
@@ -41,6 +42,8 @@ print(*solution(N,M,B,ground))
 # 사용한 방식 : 브루트포스, 낮은 
 		
 =======
+=======
+>>>>>>> origin/master
 N,M,B = map(int,input().split())
 ground = [[0]*M for i in range(N)]
 # 최소, 최대높이 초기화, 현재 인벤토리에 있는 블록의 갯수 저장
@@ -82,4 +85,7 @@ print(*solution(N,M,B,ground))
 # 시간 복잡도 : O(max_height*N*M)
 # 사용한 방식 : 브루트포스, 낮은 높이(min_height)부터 하면 높이를 찾을 때, 따로 처리를 해줘야해서 높은 높이(max_height)부터 측정 
 		
+<<<<<<< HEAD
+>>>>>>> origin/master
+=======
 >>>>>>> origin/master

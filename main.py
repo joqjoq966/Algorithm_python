@@ -1,23 +1,23 @@
-# import sys
-# input = sys.stdin.readline
+import sys
+input = sys.stdin.readline
 
-# n,k = map(int,input().split())
-# w,v =[],[]
+n,k = map(int,input().split())
+w,v =[],[]
 
-# for _ in range(n):
-# 	weight,value = map(int,input().split())
-# 	w.append(weight)
-# 	v.append(value)
+for _ in range(n):
+	weight,value = map(int,input().split())
+	w.append(weight)
+	v.append(value)
 
-# dp = [[0]*(k+1) for _ in range(n)]
-# for i in range(n):
-# 	for j in range(k+1):
-# 		if j-w[i]>=0:
-# 			dp[i][j] = max(dp[i-1][j], dp[i-1][j-w[i]] + v[i] )
-# 		else:
-# 			dp[i][j] = dp[i-1][j]
+dp = [[0]*(k+1) for _ in range(n)]
+for i in range(n):
+	for j in range(k+1):
+		if j-w[i]>=0:
+			dp[i][j] = max(dp[i-1][j], dp[i-1][j-w[i]] + v[i] )
+		else:
+			dp[i][j] = dp[i-1][j]
 
-# print(dp[-1][-1])
+print(dp[-1][-1])
 
 import sys
 input = sys.stdin.readline

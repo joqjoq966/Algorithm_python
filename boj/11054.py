@@ -22,5 +22,14 @@ for i in range(n-1,-1,-1):
 dp = [x+y for x,y in zip(dp_up,dp_down)]
 ans = max(dp)-1
 print(ans)
+
 # 10
-# 1 5 2 1 4 3 4 5 2 1
+# ar : 1 5 2 1 4 3 4 5 2 1
+          
+# dp : 1 1 1 1 1 1 1 1 1 1 
+# dp : 1 2 2 1 3 3 4 5 2 1 
+
+# dp
+
+# 1 2 4 5 2 1
+# 1 5 4 3 2 1
